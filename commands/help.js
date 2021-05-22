@@ -6,7 +6,7 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 module.exports = {
-	name: 'help',
+	name: 'ping',
 	description: 'Ping!',
 	execute(client, message, args) {
         message.channel.send(`Prefix bota: \` y \`\nWszyscy użytkownicy: ${message.guild.memberCount}`);
