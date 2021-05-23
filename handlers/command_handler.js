@@ -1,15 +1,24 @@
 const fs = require('fs');
 
 module.exports = (client, Discord, message) => {
-    const command_files = fs.readdirSync(`./commands/`).filter(file => file.endsWith('.js'))
+    const catalogues = fs.readdirSync(`./commands/`).filter(file => !file.startsWith('.'))
 
-    for (const file of command_files) {
-        const command = require(`../commands/${file}`);
+    for (const catalogue of catalogues) {
+        catalogues.forEach(() => {
+            const load_dir = (dirs) =>{
+                const command_files = fs.readdirSync(`./commands/${dirs}/`).filter(file => file.endsWith('.js'))
 
-        if (command.name) {
-            client.commands.set(command.name, command);
-        } else {
-            continue;
-        }
+                for (const file of command_files) {
+                    const command = require(`../commands/${dirs}/${file}`)
+
+                    if (command.name) {
+                        client.commands.set(command.name, command);
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            [catalogue].forEach(e => load_dir(e)); 
+        })
     }
 }
