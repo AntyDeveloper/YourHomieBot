@@ -90,9 +90,13 @@ module.exports = {
                                     m.edit(embed4)
                                     collector1.stop()
                                     msg.edit("Giveaway został anulowany")
+                                    m.reactions.removeAll()
                                     return msg.delete({ timeout: 3000 })
                                 } else if (emoji === "❌") {
                                     msg.delete()
+                                    m.reactions.cache.get("❌").remove(user).then(() => {
+                                        m.react("❌")
+                                    })
                                 }
                             }
                         });
@@ -109,12 +113,13 @@ module.exports = {
 
                     if (zwycięzcy > 1 && m.reactions.cache.get("🎉").count > 2) {  
                         message.channel.send(`Zwycięzcami giveaway-u zostali:\n${winners}\nWygrali: **${prize}**!`)
-                        embed3.setDescription(`Nagroda: **${prize}**\nZwycięzcy:\n${winners}`)
+                        embed3.setDescription(`Nagroda: **${prize}**\nZwycięzcy:\n${winners}\nWszyscy uczestnicy: ${m.reactions.cache.get("🎉").count - 1}`)
                     } else {
                         message.channel.send(`Zwycięzcą giveaway-u został:\n${winners}\nWygrał: **${prize}**`)
-                        embed3.setDescription(`Nagroda: **${prize}**\nZwycięzca: ${winners}`)
+                        embed3.setDescription(`Nagroda: **${prize}**\nZwycięzca: ${winners}\nWszyscy uczestnicy: ${m.reactions.cache.get("🎉").count - 1}`)
                     }
                     m.edit(embed3)
+                    m.reactions.removeAll()
                 }
             }, time)
         })
