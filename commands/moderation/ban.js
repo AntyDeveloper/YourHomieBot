@@ -5,6 +5,8 @@ module.exports = {
     aliases: ['b'],
 	description: 'banuje gnojka',
 	execute(client, message, args) {
+    if (!message.guild) return message.channel.send('Ta komenda może zostać użyta tylko na serwerze')
+    if (!message.member.permissions.has('ADMINISTRATOR')) return message.channel.send('<:settings:845788459620499516> Nie masz permisji aby użyć tej komendy!')
         const targetUser = message.mentions.users.first()
         if (!targetUser) return;
         if (targetUser.id === message.author.id) return message.channel.send('Nie możesz zbanować samego siebie!')

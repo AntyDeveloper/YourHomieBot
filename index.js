@@ -1,28 +1,40 @@
 const Discord = require('discord.js');
-const {MessageMentions} = require("discord.js");
+const { MessageMentions } = require("discord.js");
 const client = new Discord.Client();
-const { prefix, token } = require('./config.json');
+const { prefix, token, wersja } = require('./config.json');
 const regex = MessageMentions.USERS_PATTERN;
 
 client.commands = new Discord.Collection();
 client.event = new Discord.Collection();
 
 [`command_handler`, `event_handler`].forEach(handler =>{
-    require(`./handlers/${handler}`)(client, Discord);
+  require(`./handlers/${handler}`)(client, Discord);
 })
-
+const activities_list = [
+  `Prefix: ${prefix}`, 
+  `Serwery: ${client.guilds.cache.size}`,
+  `Werjsa: ${wersja}`,
+  `All komendy: ${prefix}pomoc` 
+  ]; 
 client.on('ready', () => {
-    console.log('Ready!');
-    client.user.setActivity("z przyjaciółmi", { type: "PLAYING" });
+  let i = 0;
+  setInterval(() => {
+      client.user.setActivity(activities_list[i++ % activities_list.length], { type: 'PLAYING' }); 
+  }, 30000); // 
+});
+client.on('message', message => {
+  const { last_letter } = require('./config.json');
+  if (message.channel.id !== last_letter) return;
+  if (message.content.includes(" ")) return message.delete()
+  if (/[^a-zA-Z]/.test(message.content)) return message.delete()
+
+  message.channel.messages.fetch({ limit: 2 }).then(messages => {
+    let msgC1 = messages.first().content.slice(0, 1)
+    let msgC2 = messages.last().content.slice(-1)
+    if (msgC1 !== msgC2) return message.delete()
+  })
+
 });
 
-client.on('message', message =>{
-    let subject = message.content
-    if (message.mentions.has(client.user.id)) {
-        if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
-        //if (message.content === regex.test(subject))
-        message.channel.send(`Mój premfix to \` ${prefix} \``)
-    };
-});
 
 client.login(token);

@@ -1,11 +1,15 @@
 const Discord = require('discord.js')
 const moment = require('moment');
+const { prefix } = require('../../config.json');
+
 
 module.exports = {
 	name: 'giveaway',
     aliases: ['g-create'],
 	description: 'Tworzy giveaway-a',
 	execute(client, message, args) {
+        message.delete()
+        if (!message.guild) return message.channel.send('Ta komenda może zostać użyta tylko na serwerze')
         if (!message.member.permissions.has('ADMINISTRATOR')) return message.channel.send('❌ Nie masz permisji aby użyć tej komendy!')
         if (!args.length) return message.channel.send('Nieprawidlowe uzycie');
 
