@@ -17,6 +17,7 @@ const activities_list = [
   `All komendy: ${prefix}pomoc` 
   ]; 
 client.on('ready', () => {
+  console.log(`${client.user.tag} jest wlaczony!`);
   let i = 0;
   setInterval(() => {
       client.user.setActivity(activities_list[i++ % activities_list.length], { type: 'PLAYING' }); 
@@ -34,6 +35,25 @@ client.on('message', message => {
     if (msgC1 !== msgC2) return message.delete()
   })
 
+});
+
+const db = require("quick.db");
+
+client.on('guildMemberAdd',(guildMember) => {
+    console.log(guildMember.user.username)
+    let chx = db.get('wcha_${message.guild.id}')
+    if (chx == null){
+        console.log('kurwaaaaaaaaaaa')
+        return;
+    }else{
+      const info = new Discord.MessageEmbed()
+        .setColor('#00ff00')
+        .setTitle('Witaj na serwerze')
+        .setDescription(`Serdecznie witamy na serwerze ${guildMember.user.username}`)
+        .setThumbnail(guildMember.user.displayAvatarURL())
+        .setTimestamp()
+      client.channels.cache.get(chx).send(info)
+    }
 });
 
 
