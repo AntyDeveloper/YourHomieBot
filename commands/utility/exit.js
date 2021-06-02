@@ -3,7 +3,7 @@ const db = require("quick.db");
 
 module.exports = {
     name: "wscreen",
-    aliases: ['welcome', 'powitanie','we'],
+    aliases: ['exit', 'zegnamy','ex'],
     async execute(client, message, args) {
         message.delete()
         if (!message.guild) return message.channel.send('Ta komenda może zostać użyta tylko na serwerze')
@@ -16,18 +16,18 @@ module.exports = {
             return;
         }
         if (!channel) {
-            let chx = db.get('wcha_${message.guild.id}')
+            let chx = db.get('echa_${message.guild.id}')
             let guildMember = message.member
             const info = new Discord.MessageEmbed()
-                .setColor('#00ff00')
-                .setTitle('Witaj na serwerze')
-                .setDescription(`Serdecznie witamy na serwerze @${guildMember.user.username}`)
+                .setColor('#0000FF')
+                .setTitle('Żegnaj')
+                .setDescription(`Czemu nas opuszczasz :sob: ${guildMember.user.username}`)
                 .setThumbnail(guildMember.user.displayAvatarURL())
                 .setTimestamp()
             client.channels.cache.get(chx).send(info)
             return;
         } else {
-            db.set('wcha_${message.guild.id}',channel.id)
+            db.set('echa_${message.guild.id}',channel.id)
             channel.send("nienawidzę poniedzałków")
         }
     }   

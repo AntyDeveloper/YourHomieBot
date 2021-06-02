@@ -43,9 +43,9 @@ client.on('guildMemberAdd',(guildMember) => {
     console.log(guildMember.user.username)
     let chx = db.get('wcha_${message.guild.id}')
     if (chx == null){
-        console.log('kurwaaaaaaaaaaa')
         return;
     }else{
+      client.channels.cache.get(chx).send("@"+guildMember.user.username)
       const info = new Discord.MessageEmbed()
         .setColor('#00ff00')
         .setTitle('Witaj na serwerze')
@@ -56,5 +56,21 @@ client.on('guildMemberAdd',(guildMember) => {
     }
 });
 
+client.on('guildMemberRemove',(guildMember) => {
+  console.log(guildMember.user.username)
+  let chx = db.get('wcha_${message.guild.id}')
+  if (chx == null){
+      return;
+  }else{
+    client.channels.cache.get(chx).send("@"+guildMember.user.username)
+    const info = new Discord.MessageEmbed()
+      .setColor('#0000FF')
+      .setTitle('Żegnaj')
+      .setDescription(`Czemu nas opuszczasz :sob: ${guildMember.user.username}`)
+      .setThumbnail(guildMember.user.displayAvatarURL())
+      .setTimestamp()
+    client.channels.cache.get(chx).send(info)
+  }
+});
 
 client.login(token);
