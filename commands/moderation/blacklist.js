@@ -21,7 +21,7 @@ module.exports = {
       return message.channel.send(`Ten użytkownik ma blackliste!`);
     }
   }else{
-    message.author.send("Masz blackliste :D")
+    message.author.send("Ten użytkownik ma blackliste :D")
     message.delete()
   }
     }}

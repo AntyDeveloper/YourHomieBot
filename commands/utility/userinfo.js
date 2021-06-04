@@ -20,7 +20,7 @@ module.exports = {
         .setTitle('Informacje o użytkowniku')
         .setDescription(`**Nazwa użytkownika** <:personframe:845799554619670569>\n> ${message.author.tag}\n\n**Data założenia konta** <:settings:845788459620499516>\n> ${created}\n\n**Data dołączenia** <:personadd:845790111173312523>\n > ${join}`)
         .setTimestamp()
-        .setFooter(`${client.user.username}`, message.author.displayAvatarURL())
+        .setFooter(`${cmessage.author.username}`, message.author.displayAvatarURL())
         message.channel.send(info);
     }
 };

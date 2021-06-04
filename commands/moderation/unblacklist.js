@@ -13,6 +13,7 @@ module.exports = {
     if(!user) return message.channel.send(`Nie poprawny użytkownik lub id.`);
   
     let fetched = blacklist.get(`blacklist_${user.id}`)
+    
     if(!fetched) {
       return message.channel.send(`Ten użytkownik nie ma blacklisty!`);
     }else{

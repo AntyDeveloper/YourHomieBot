@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { MessageMentions } = require("discord.js");
 const client = new Discord.Client();
-const { prefix, token, wersja } = require('./config.json');
+const { token } = require('./config.json');
 const regex = MessageMentions.USERS_PATTERN;
 
 client.commands = new Discord.Collection();
@@ -10,18 +10,7 @@ client.event = new Discord.Collection();
 [`command_handler`, `event_handler`].forEach(handler =>{
   require(`./handlers/${handler}`)(client, Discord);
 })
-const activities_list = [
-  `Prefix: ${prefix}`, 
-  `Serwery: ${client.guilds.cache.size}`,
-  `Werjsa: ${wersja}`,
-  `All komendy: ${prefix}pomoc` 
-  ]; 
-client.on('ready', () => {
-  let i = 0;
-  setInterval(() => {
-      client.user.setActivity(activities_list[i++ % activities_list.length], { type: 'PLAYING' }); 
-  }, 30000); // 
-});
+
 client.on('message', message => {
   const { last_letter } = require('./config.json');
   if (message.channel.id !== last_letter) return;
@@ -35,6 +24,5 @@ client.on('message', message => {
   })
 
 });
-
 
 client.login(token);
