@@ -12,11 +12,12 @@ module.exports = (Discord, client, message) => {
     const cmd = args.shift().toLowerCase();
     
     const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
-        
+    
     let fetched = blacklist.fetch(`blacklist_${message.author.id}`)
 
     if (fetched) {
         message.delete()
         message.author.send('Zostałeś zblacklistowany z bota przez Ownera')
-    } else if (command) command.execute(client, message, args, Discord);
+    } else 
+    if (command) command.execute(client, message, args, Discord);
 }

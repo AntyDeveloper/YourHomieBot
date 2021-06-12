@@ -4,12 +4,15 @@ const client = new Discord.Client();
 const { token } = require('./config.json');
 const regex = MessageMentions.USERS_PATTERN;
 
+
 client.commands = new Discord.Collection();
 client.event = new Discord.Collection();
 
 [`command_handler`, `event_handler`].forEach(handler =>{
   require(`./handlers/${handler}`)(client, Discord);
 })
+
+
 
 client.on('message', message => {
   const { last_letter } = require('./config.json');
